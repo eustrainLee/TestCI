@@ -16,4 +16,5 @@ jobs:
 #      - uses: actions/checkout
       - name: echo
         run: sh -c "echo hello"
-        
+      - name: sudo
+        run: touch /etc/touch.tmp
