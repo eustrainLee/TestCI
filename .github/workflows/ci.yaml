@@ -1,0 +1,19 @@
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: "0 23 * * *"
+
+jobs:
+  test:
+    runs-on: [self-hosted]
+    steps:
+      - uses: actions/checkout
+      - name: echo
+        run: sh -c "echo hello"
+        
