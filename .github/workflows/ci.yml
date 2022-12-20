@@ -55,6 +55,8 @@ jobs:
         run: echo $PWD
 #       - name: setup environment
 #         run: ../deploy.sh
+      - name: sleep
+        run: sleep 120
 
       - name: run-e2e
         run: sudo go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
