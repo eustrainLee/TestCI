@@ -51,6 +51,8 @@ jobs:
       # - name: run test cases
       #   run: bash hack/run-k8s-e2e.sh
 
+      - name: lookup
+        run: ls
 #       - name: setup environment
 #         run: ../deploy.sh
 
