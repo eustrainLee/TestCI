@@ -51,12 +51,9 @@ jobs:
       # - name: run test cases
       #   run: bash hack/run-k8s-e2e.sh
 
-      - name: setup environment
-        run: ../deploy.sh
-      
-      - name: clear
-        run: 
+#       - name: setup environment
+#         run: ../deploy.sh
 
       - name: run-e2e
-        run: bash -x go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
+        run: sudo bash -x go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
         
