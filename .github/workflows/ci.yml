@@ -55,5 +55,5 @@ jobs:
 #         run: ../deploy.sh
 
       - name: run-e2e
-        run: sudo bash -x go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
+        run: sudo go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
         
