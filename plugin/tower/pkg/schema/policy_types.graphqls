@@ -1,0 +1,94 @@
+type SecurityPolicy {
+    id: ID!
+    name: String!
+    everoute_cluster: ObjectReference!
+    apply_to: [SecurityPolicyApply!]!
+    ingress: [NetworkPolicyRule!]
+    egress: [NetworkPolicyRule!]
+    policy_mode: PolicyMode
+}
+
+type SecurityPolicyApply {
+    type: SecurityPolicyType!
+    communicable: Boolean!
+    security_group: ObjectReference
+    selector: [ObjectReference!]!
+}
+
+enum SecurityPolicyType {
+    SECURITY_GROUP
+    SELECTOR
+}
+
+enum PolicyMode {
+    MONITOR
+    WORK
+}
+
+type IsolationPolicy {
+    id: ID!
+    everoute_cluster: ObjectReference!
+    vm: ObjectReference!
+    mode: IsolationMode!
+    ingress: [NetworkPolicyRule!]
+    egress: [NetworkPolicyRule!]
+}
+
+enum IsolationMode {
+    ALL
+    PARTIAL
+}
+
+type NetworkPolicyRule {
+    type: NetworkPolicyRuleType!
+    ip_block: String
+    except_ip_block: [String!]
+    ports: [NetworkPolicyRulePort!]
+    selector: [ObjectReference!]
+    security_group: ObjectReference
+}
+
+type NetworkPolicyRulePort {
+    port: String
+    protocol: NetworkPolicyRulePortProtocol!
+}
+
+enum NetworkPolicyRulePortProtocol {
+    ICMP
+    TCP
+    UDP
+}
+
+enum NetworkPolicyRuleType {
+    ALL
+    IP_BLOCK
+    SELECTOR
+    SECURITY_GROUP
+}
+
+type SystemEndpoints {
+    id_endpoints: [IDSystemEndpoint!]
+    ip_port_endpoints: [IPPortSystemEndpoint!]
+}
+
+type IDSystemEndpoint {
+    key: String!
+    vm_id: String!
+}
+
+type IPPortSystemEndpoint {
+    key: String!
+    ip: String!
+    port: Int
+}
+
+type SecurityGroup {
+    id: ID!
+    everoute_cluster: ObjectReference!
+    label_groups: [LabelGroup!]
+    vms: [ObjectReference!]!
+}
+
+type LabelGroup {
+    labels: [ObjectReference!]!
+}

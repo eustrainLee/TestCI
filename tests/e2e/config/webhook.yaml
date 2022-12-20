@@ -1,0 +1,38 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validator.everoute.io
+webhooks:
+  - admissionReviewVersions: [ "v1" ]
+    sideEffects: None
+    clientConfig:
+      # CaBundle must set as the ca for secret everoute-controller-tls.
+      caBundle:
+      # use local everoute-controller webhook
+      url: https://127.0.0.1:9443/validate/crds
+    failurePolicy: Fail
+    name: validator.everoute.io
+    rules:
+      - apiGroups:
+          - security.everoute.io
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+          - DELETE
+        resources:
+          - securitypolicies
+          - endpoints
+          - globalpolicies
+      - apiGroups:
+          - group.everoute.io
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+          - DELETE
+        resources:
+          - endpointgroups

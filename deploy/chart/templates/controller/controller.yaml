@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: everoute-controller
+  namespace: kube-system
+  labels:
+    app: everoute
+    component: everoute-controller
+spec:
+  strategy:
+    # Ensure the existing Pod is killed before the new one is created.
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: everoute
+      component: everoute-controller
+  template:
+    metadata:
+      labels:
+        app: everoute
+        component: everoute-controller
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+        - key: CriticalAddonsOnly
+          operator: Exists
+      serviceAccountName: everoute-controller
+      containers:
+        - name: everoute-controller
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: IfNotPresent
+          command: ["everoute-controller"]
+          args:
+            - --enable-leader-election=true
+            - --port=9443
+            - --enable-cni=true
+            - -v=0
+          readinessProbe:
+            httpGet:
+              scheme: HTTPS
+              port: 9443
+              path: /healthz
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3

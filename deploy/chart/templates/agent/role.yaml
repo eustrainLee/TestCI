@@ -1,0 +1,51 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: everoute-agent
+rules:
+- apiGroups:
+  - agent.everoute.io
+  resources:
+  - agentinfos
+  verbs:
+  - patch
+  - create
+  - update
+  - delete
+  - get
+  - list
+  - watch
+- apiGroups:
+    - ""
+  resources:
+    - pods
+    - nodes
+  verbs:
+    - patch
+    - create
+    - update
+    - delete
+    - get
+    - list
+    - watch
+- apiGroups:
+    - group.everoute.io
+  resources:
+    - groupmembers
+    - groupmemberspatches
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+    - security.everoute.io
+  resources:
+    - securitypolicies
+    - globalpolicies
+  verbs:
+    - get
+    - list
+    - watch
+    - create

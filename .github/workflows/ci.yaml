@@ -11,10 +11,52 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, linux, x64, tower-e2e]
     steps:
-#      - uses: actions/checkout
-      - name: echo
-        run: sh -c "echo hello"
-      - name: sudo
-        run: touch /etc/touch.tmp
+      # - name: clean old eveorute
+      #   run: sudo skaffold run -d=registry.smtx.io/everoute -f skaffold-clean.yaml
+
+      # - name: wait clean process ready
+      #   run: kubectl wait po -n kube-system --for=condition=Ready=True -l app=everoute -l component=everoute-clean --timeout=3m
+
+      # - name: restart system service pods
+      #   run: |
+      #     kubectl get pods -n kube-system | awk '{print $1}' | grep "^coredns\|^metrics" | xargs kubectl delete pods -n kube-system
+
+      # - name: stop clean pods
+      #   if: always()
+      #   run: kubectl delete -f hack/clean.yaml
+
+      # - name: build everoute and deploy
+      #   run: sudo skaffold run -d=registry.smtx.io/everoute
+
+      # - name: wait everoute ready
+      #   run: bash hack/check_ready.sh
+
+      # - uses: actions/checkout@v2
+      #   with:
+      #     repository: "kubernetes/kubernetes"
+      #     ref: "v1.21.5"
+      #     path: "./kubernetes"
+
+      # - name: apply e2e patch
+      #   run: cd kubernetes && git apply ../hack/0001-test-e2e-add-sleep-before-cannot-conntect-test.patch ../hack/0001-test-e2e-reduce-test-log.patch
+
+      # - name: build e2e
+      #   run: cd kubernetes && make all WHAT=test/e2e/e2e.test && make all WHAT=vendor/github.com/onsi/ginkgo/ginkgo
+
+      # - name: remove remained ns in last test
+      #   run: kubectl get ns | grep "policy\|netpol"  | awk '{print $1}' | xargs kubectl delete ns || echo "finish"
+
+      # - name: run test cases
+      #   run: bash hack/run-k8s-e2e.sh
+
+      - name: setup environment
+        run: ../deploy.sh
+      
+      - name: clear
+        run: 
+
+      - name: run-e2e
+        run: bash -x go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
+        

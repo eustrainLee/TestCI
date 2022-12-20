@@ -1,0 +1,94 @@
+type VM {
+    id: ID!
+    name: String!
+    description: String!
+    vcpu: Int!
+    memory: Float!
+    vm_nics: [VMNic!]
+    status: VMStatus!
+}
+
+enum VMStatus {
+    DELETED
+    RUNNING
+    STOPPED
+    SUSPENDED
+    UNKNOWN
+}
+
+type VMNic {
+    id: ID!
+    vlan: Vlan
+    enabled: Boolean
+    mirror: Boolean
+    model: VMNicModel
+    mac_address: String
+    ip_address: String
+    interface_id: String
+}
+
+enum VMNicModel {
+    E1000
+    VIRTIO
+}
+
+type Vlan {
+    id: ID!
+    vds: ObjectReference!
+    name: String!
+    vlan_id: Int!
+    type: NetworkType!
+}
+
+enum NetworkType {
+    ACCESS
+    MANAGEMENT
+    MIGRATION
+    STORAGE
+    VM
+}
+
+type Label {
+    id: ID!
+    key: String!
+    value: String
+    vms: [VM!]
+}
+
+type EverouteCluster {
+    id: ID!
+    agent_elf_clusters: [ObjectReference!]
+    agent_elf_vdses: [ObjectReference!]
+    controller_instances: [EverouteControllerInstance!]!
+    global_default_action: GlobalPolicyAction!
+    global_whitelist: EverouteClusterWhitelist
+}
+
+type EverouteClusterWhitelist {
+    egress: [NetworkPolicyRule!]
+    enable: Boolean!
+    ingress: [NetworkPolicyRule!]
+}
+
+type EverouteControllerInstance {
+    ipAddr: String!
+}
+
+enum GlobalPolicyAction {
+    ALLOW
+    DROP
+}
+
+type Host {
+    id: ID!
+    name: String!
+    nics: [Nic!]
+}
+
+type Nic {
+    id: ID!
+    physical: Boolean!
+    name: String!
+    mac_address: String!
+    ip_address: String
+}
