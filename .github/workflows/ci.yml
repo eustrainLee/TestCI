@@ -52,7 +52,7 @@ jobs:
       #   run: bash hack/run-k8s-e2e.sh
 
       - name: lookup
-        run: ls
+        run: echo $PWD
 #       - name: setup environment
 #         run: ../deploy.sh
 
