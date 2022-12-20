@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted, linux, x64, tower, remote]
+    runs-on: [self-hosted, linux, tower, remote]
     steps:
       # - name: clean old eveorute
       #   run: sudo skaffold run -d=registry.smtx.io/everoute -f skaffold-clean.yaml
