@@ -56,10 +56,10 @@ jobs:
 #       - name: setup environment
 #         run: ../deploy.sh
       - name: sleep
-        run: sleep 120
+        run: sleep 20
       - uses: actions/checkout@v3
       - name: run-e2e
-        run: sudo go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
+        run: go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
       
 #       - name: run-e2e
 #         run: git clone https://github.com/eustrainLee/TestCI.git && cd TestCI && sudo go test ./tests/e2e/cases/. -v --count=1 --timeout=1h
